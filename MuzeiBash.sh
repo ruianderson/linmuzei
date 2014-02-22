@@ -22,14 +22,27 @@ else
 fi
 
 ######Set the wallpaper######
-if [ "$pidof gnome-settings-daemon)" ]
-then
-  echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
-  gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
-else
-  echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
-  feh --bg-fill $muzeiDir/Wallpaper/$imageFile
-fi
+function setWallpaperLinux(){
+  if [ "$pidof gnome-settings-daemon)" ]
+  then
+    echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
+    gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
+  else
+    echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
+    feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+  fi
+}
+function setWallpaperOSX(){
+  osascript
+  tell application "Finder"
+    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
+  end tell
+}
+case "$OSTYPE" in
+  linux*)	setWallpaperLinux ;;
+  darwin*)	setWallpaperOSX ;;
+  *)		echo "Get a proper OS, kid." ;;
+esac
 
 ######Send a notification######
 cd $muzeiDir
