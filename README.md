@@ -22,4 +22,4 @@ Installation
 
 Simply set the script as a cronjob or anacronjob with your desired running time.  If you're a noob you can use things like Gnome Schedule or KDE's Task Scheduler (KCron) to do this with a GUI.
 
-If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the script to ~/bin/, set a cronjob at midnight everyday).  You'll have to have ~/bin/ in your $PATH, though (which should be the case anyway).
+If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the script to ~/bin/, set a cronjob at midnight everyday).
