@@ -13,6 +13,7 @@ elif ! which notify-send > /dev/null
 then
   echo "Please install notify-send for a better experience."
 fi
+
 ######Get the Muzei JSON and parse it######
 curl -o muzei.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
 imageUri=`jq '.imageUri' $muzeiDir/muzei.json | sed s/\"//g`
