@@ -1,6 +1,8 @@
 Muzei-Bash
 ==========
 
+  ![Muzei](http://i.imgur.com/vEFoIpw.png)
+
 Port of [Muzei](https://github.com/romannurik/muzei/) to Bash.
 
 Set this script as a(n) (ana)cronjob, and it'll download a new "famous work of art" everyday and set it as your wallpaper.
