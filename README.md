@@ -16,3 +16,10 @@ Requirements
 * jq (for parsing Muzei's JSON; can be found in Debian, Ubuntu, Arch AUR, Gentoo, and Fedora repos.  If it's not in your distro's repos, check [here](http://stedolan.github.io/jq/download/).)
 * notify-send (for sending "wallpaper changed" notifications)
 * feh (only if you aren't running gnome-settings-daemon)
+
+Installation
+------------
+
+Simply set the script as a cronjob or anacronjob with your desired running time.  If you're a noob you can use things like Gnome Schedule to do this with a GUI.
+
+If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the script to ~/bin/, set a cronjob at midnight everyday).  You'll have to have ~/bin/ in your $PATH, though (which should be the case anyway).
