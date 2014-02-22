@@ -5,11 +5,11 @@ mkdir -p $muzeiDir/Wallpaper
 cd $muzeiDir
 
 ######Needed packages######
-if ! which jq > /dev/null
+if ! [ "$(which jq)" ]
 then
   echo "You need jq to use this."
   exit
-elif ! which notify-send > /dev/null
+elif ! [ "$(which notify-send)" ]
 then
   echo "Please install notify-send for a better experience."
 fi
@@ -38,15 +38,15 @@ function setWallpaperLinux(){
     echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
     gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
   else
-    if which feh > /dev/null
+    if [ "$(which feh)" ]
     then
      echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
      feh --bg-fill $muzeiDir/Wallpaper/$imageFile
-    elif which hsetroot > /dev/null
+    elif [ "$(which hsetroot)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
       hsetroot -cover $muzeiDir/Wallpaper/$imageFile
-    elif which nitrogen > /dev/null
+    elif [ "$(which nitrogen)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
       nitrogen $muzeiDir/Wallpaper/$imageFile
