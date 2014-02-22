@@ -4,6 +4,15 @@ muzeiDir=~/Pictures/Muzei
 mkdir -p $muzeiDir/Wallpaper
 cd $muzeiDir
 
+######Needed packages######
+if ! which jq > /dev/null
+then
+  echo "You need jq to use this."
+  exit
+elif ! which notify-send > /dev/null
+then
+  echo "Please install notify-send for a better experience."
+fi
 ######Get the Muzei JSON and parse it######
 curl -o muzei.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
 imageUri=`jq '.imageUri' $muzeiDir/muzei.json | sed s/\"//g`
@@ -28,8 +37,22 @@ function setWallpaperLinux(){
     echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
     gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
   else
-    echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
-    feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+    if which feh > /dev/null
+    then
+     echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
+     feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+    elif which hsetroot > /dev/null
+    then
+      echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
+      hsetroot -cover $muzeiDir/Wallpaper/$imageFile
+    elif which nitrogen > /dev/null
+    then
+      echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
+      nitrogen $muzeiDir/Wallpaper/$imageFile
+    else
+      echo "You need to have either feh, hsetroot or nitrogen, bruhbruh."
+      exit
+    fi
   fi
 }
 function setWallpaperOSX(){
