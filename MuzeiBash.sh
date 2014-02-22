@@ -44,4 +44,4 @@ notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png
 
 ######Clean up old wallpapers######
 echo "Cleaning up old files..."
-find $muzeiDir/Wallpaper -ctime +30 -exec rm {} \;
+find $muzeiDir/Wallpaper -ctime +30 -exec rm {} +
