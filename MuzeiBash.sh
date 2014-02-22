@@ -33,20 +33,20 @@ fi
 
 ######Set the wallpaper######
 function setWallpaperLinux(){
-  if which gsettings > /dev/null
+  if [ "$(pidof gnome-settings-daemon)" ]
   then
     echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
     gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
   else
-    if which feh > /dev/null
+    if [ "$(which feh)" ]
     then
      echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
      feh --bg-fill $muzeiDir/Wallpaper/$imageFile
-    elif which hsetroot > /dev/null
+    elif [ "$(which hsetroot)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
       hsetroot -cover $muzeiDir/Wallpaper/$imageFile
-    elif which nitrogen > /dev/null
+    elif [ "$(which nitrogen)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
       nitrogen $muzeiDir/Wallpaper/$imageFile
@@ -57,10 +57,12 @@ function setWallpaperLinux(){
   fi
 }
 function setWallpaperOSX(){
-  osascript
-  tell application "Finder"
-    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
-  end tell
+  defaults write com.apple.desktop Background "{default = {ImageFilePath='$muzeiDir/Wallpaper/$imageFile'; };}"
+  killall Dock
+#  osascript
+#  tell application "Finder"
+#    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
+#  end tell
 }
 case "$OSTYPE" in
   linux*)	setWallpaperLinux ;;
