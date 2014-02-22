@@ -5,11 +5,11 @@ mkdir -p $muzeiDir/Wallpaper
 cd $muzeiDir
 
 ######Needed packages######
-if ! which jq > /dev/null
+if ! [ "$(which jq)" ]
 then
   echo "You need jq to use this."
   exit
-elif ! which notify-send > /dev/null
+elif ! [ "$(which notify-send)" ]
 then
   echo "Please install notify-send for a better experience."
 fi
