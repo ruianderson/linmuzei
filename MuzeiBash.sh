@@ -33,10 +33,12 @@ function setWallpaperLinux(){
   fi
 }
 function setWallpaperOSX(){
-  osascript
-  tell application "Finder"
-    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
-  end tell
+  defaults write com.apple.desktop Background "{default = {ImageFilePath='$muzeiDir/Wallpaper/$imageFile'; };}"
+  killall Dock
+#  osascript
+#  tell application "Finder"
+#    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
+#  end tell
 }
 case "$OSTYPE" in
   linux*)	setWallpaperLinux ;;
