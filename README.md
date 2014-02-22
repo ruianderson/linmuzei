@@ -11,5 +11,5 @@ Requirements
 ------------
 
 * Bash (duh!)
-* jq (for parsing Muzei's JSON; can be found in Debian, Ubuntu, and Arch AUR repos.  If it's not in your distro's repos, check [here](http://stedolan.github.io/jq/download/).)
+* jq (for parsing Muzei's JSON; can be found in Debian, Ubuntu, Arch AUR, Gentoo, and Fedora repos.  If it's not in your distro's repos, check [here](http://stedolan.github.io/jq/download/).)
 * notify-send (for sending "wallpaper changed" notifications)
