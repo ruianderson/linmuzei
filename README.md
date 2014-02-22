@@ -9,6 +9,8 @@ Set this script as a(n) (ana)cronjob, and it'll download a new "famous work of a
 
 Currently supports Linux running in a Gnome-settings-daemon-based environment (Gnome-Shell, Unity, Pantheon, etc.; sets wallpaper via gsettings).  If Gnome-settings-daemon is not running, background is set using [feh](http://feh.finalrewind.org/).  Preliminary support for OSX is there.  Project is still new, so we don't support blurring or dimming yet (though I don't think those are useful for desktop, unlike smartphones and tablets).
 
+**Suggestions and patches welcome!**
+
 Requirements
 ------------
 
