@@ -18,6 +18,7 @@ Requirements
 * jq (for parsing Muzei's JSON; can be found in Debian, Ubuntu, Arch AUR, Gentoo, and Fedora repos.  If it's not in your distro's repos, check [here](http://stedolan.github.io/jq/download/).)
 * notify-send (for sending "wallpaper changed" notifications)
 * feh, hsetroot, or nitrogen (only if you aren't running gnome-settings-daemon)
+* GNU sed (some sed flavours do not have the -i prefix)
 
 Installation
 ------------
