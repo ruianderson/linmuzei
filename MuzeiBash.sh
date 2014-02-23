@@ -15,6 +15,22 @@ then
   echo "Please install notify-send for a better experience."
 fi
 
+######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
+if [ -f ~/.xinitrc ]
+then
+  echo "Deleting old .xinitrc line..."
+  if [ "$(cat ~/.xinitrc | grep '^hsetroot -cover')" ]
+  then
+    sed -i "/^hsetroot -cover/d" ~/.xinitrc
+  elif [ "$(cat ~/.xinitrc | grep '^sh ~/.fehbg')" ]
+  then
+    sed -i "/^sh ~/.fehbg/d" ~/.xinitrc
+  elif [ "$(cat ~/.xinitrc | grep '^nitrogen --restore')" ]
+  then
+    sed -i "/^nitrogen --restore/d" ~/.xinitrc
+  fi
+fi
+
 ######Get the Muzei JSON and parse it######
 curl -o muzei.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
 imageUri=`jq '.imageUri' $muzeiDir/muzei.json | sed s/\"//g`
@@ -24,13 +40,39 @@ byline=`jq '.byline' $muzeiDir/muzei.json | sed s/\"//g`
 
 ######Get the latest wallpaper######
 cd Wallpaper
-if [ -f $imageFile ];
+if [ -f $imageFile ]
 then
   echo "File $imageFile exists."
 else
   echo "File $imageFile does not exist, downloading..."
   curl -O $imageUri
 fi
+
+######Functions for autostarting feh, hsetroot and nitrogen######
+function feh_xinitSet(){
+  if ! [ -f ~/.xinitrc ] || ! [ "$(cat ~/.xinitrc | grep ^exec)" ]
+  then
+    echo "sh ~/.fehbg &" >> ~/.xinitrc
+  else
+    sed -i "s#^exec #sh ~/.fehbg \&\nexec #" ~/.xinitrc
+  fi
+}
+function hsetroot_xinitSet(){
+  if ! [ -f ~/.xinitrc ] || ! [ "$(cat ~/.xinitrc | grep ^exec)" ]
+  then
+    echo "hsetroot -cover $muzeiDir/Wallpaper/$imageFile &" >> ~/.xinitrc
+  else
+    sed -i "s#^exec #hsetroot -cover $muzeiDir/Wallpaper/$imageFile \&\nexec #" ~/.xinitrc
+  fi
+}
+function nitrogen_xinitSet(){
+  if ! [ -f ~/.xinitrc ] || ! [ "$(cat ~/.xinitrc | grep ^exec)" ]
+  then
+    echo "nitrogen --restore &" >> ~/.xinitrc
+  else
+    sed -i "s#^exec #nitrogen --restore \&\nexec #" ~/.xinitrc
+  fi
+}
 
 ######Set the wallpaper######
 function setWallpaperLinux(){
@@ -41,16 +83,19 @@ function setWallpaperLinux(){
   else
     if [ "$(which feh)" ]
     then
-     echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
-     feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+      echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
+      feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+      feh_xinitSet
     elif [ "$(which hsetroot)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
       hsetroot -cover $muzeiDir/Wallpaper/$imageFile
+      hsetroot_xinitSet
     elif [ "$(which nitrogen)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
       nitrogen $muzeiDir/Wallpaper/$imageFile
+      nitrogen_xinitSet
     else
       echo "You need to have either feh, hsetroot or nitrogen, bruhbruh."
       exit
