@@ -15,6 +15,22 @@ then
   echo "Please install notify-send for a better experience."
 fi
 
+######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
+if [ -f ~/.xinitrc ]
+then
+  echo "Deleting old .xinitrc line..."
+  if [ "$(cat ~/.xinitrc | grep '^hsetroot -cover')" ]
+  then
+    sed -i "/^hsetroot -cover/d" ~/.xinitrc
+  elif [ "$(cat ~/.xinitrc | grep '^sh ~/.fehbg')" ]
+  then
+    sed -i "/^sh ~/.fehbg/d" ~/.xinitrc
+  elif [ "$(cat ~/.xinitrc | grep '^nitrogen --restore')" ]
+  then
+    sed -i "/^nitrogen --restore/d" ~/.xinitrc
+  fi
+fi
+
 ######Get the Muzei JSON and parse it######
 curl -o muzei.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
 imageUri=`jq '.imageUri' $muzeiDir/muzei.json | sed s/\"//g`
