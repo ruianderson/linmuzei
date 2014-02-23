@@ -122,7 +122,7 @@ if [ -f MuzeiLogo.png ];
 then
   echo "Logo already exists."
 else
-  echo "Lodo doesn't exist, downloading..."
+  echo "Logo doesn't exist, downloading..."
   curl -O "https://raw.github.com/Feminist-Software-Foundation/Muzei-Bash/master/MuzeiLogo.png"
 fi
 notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png
