@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
 ######Initial stuff######
 muzeiDir=~/Pictures/Muzei
 mkdir -p $muzeiDir/Wallpaper
@@ -65,9 +66,9 @@ function setWallpaperOSX(){
 #  end tell
 }
 case "$OSTYPE" in
-  linux*)	setWallpaperLinux ;;
-  darwin*)	setWallpaperOSX ;;
-  *)		echo "Get a proper OS, kid." ;;
+  linux* | *BSD*)	setWallpaperLinux ;;
+  darwin*)		setWallpaperOSX ;;
+  *)			echo "Get a proper OS, kid." ;;
 esac
 
 ######Send a notification######
