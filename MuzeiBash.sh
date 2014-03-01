@@ -38,7 +38,7 @@ then
     sed -i "/^hsetroot -cover/d" ~/.xinitrc
   elif [ "$(cat ~/.xinitrc | grep '^sh ~/.fehbg')" ]
   then
-    sed -i "/^sh ~/.fehbg/d" ~/.xinitrc
+    sed -i "/^sh ~\/.fehbg/d" ~/.xinitrc
   elif [ "$(cat ~/.xinitrc | grep '^nitrogen --restore')" ]
   then
     sed -i "/^nitrogen --restore/d" ~/.xinitrc
@@ -141,6 +141,7 @@ fi
 case "$OSTYPE" in
   linux* | *BSD*) notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png ;;
   darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;;
+esac
 
 ######Clean up old wallpapers######
 echo "Cleaning up old files..."
