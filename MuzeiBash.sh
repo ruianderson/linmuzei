@@ -21,13 +21,13 @@ function notifytestOSX(){
 case "$OSTYPE" in
   linux* | *BSD*) notifytestLinux ;;
   darwin*)        notifytestOSX ;;
-  *)              echo "Get a proper OS, kid." && exit ;;
+  *)              echo "Get a proper OS, kid.";;
 esac
 if ! [ "$(which jq)" ]
 then
   echo "You need jq to use this."
   exit
-
+fi
 ######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
 if [ -f ~/.xinitrc ]
 then
@@ -139,7 +139,7 @@ else
 fi
 case "$OSTYPE" in
   linux* | *BSD*) notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png ;;
-  darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;; # No icon support on OSX
+  darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;;
 
 ######Clean up old wallpapers######
 echo "Cleaning up old files..."
