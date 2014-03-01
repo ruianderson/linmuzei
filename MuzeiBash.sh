@@ -28,6 +28,7 @@ then
   echo "You need jq to use this."
   exit
 fi
+
 ######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
 if [ -f ~/.xinitrc ]
 then
