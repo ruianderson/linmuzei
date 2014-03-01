@@ -9,12 +9,12 @@ cd $muzeiDir
 if ! [ -f ./muzeich.json ]
 then
   curl -o muzeich.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
-  ~/.bin/MuzeiBash.sh
+  ~/bin/MuzeiBash.sh
 else
   curl -o muzeich2.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
   if [ "$(cmp muzeich.json muzeich2.json)" ]
     then
       mv muzeich2.json muzeich.json
-      ~/.bin/MuzeiBash.sh
+      ~/bin/MuzeiBash.sh
   fi
 fi
