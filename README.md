@@ -14,6 +14,7 @@ Currently supports Linux running in a Gnome-settings-daemon-based environment (G
 
 * Bash (duh!)
 * GNU sed (some sed flavours do not have the -i prefix)
+* cURL (for downloading stuff over the internet)
 * jq (for parsing Muzei's JSON; can be found in Debian, Ubuntu, Arch AUR, Gentoo, and Fedora repos.  If it's not in your distro's repos, check [here](http://stedolan.github.io/jq/download/).)
 
 ### Requirements specific to GNU/Linux / BSD
@@ -29,4 +30,4 @@ Currently supports Linux running in a Gnome-settings-daemon-based environment (G
 
 Simply set the script as a cronjob or anacronjob with your desired running time.  If you're a noob you can use things like Gnome Schedule or KDE's Task Scheduler (KCron) to do this with a GUI.
 
-If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the script to ~/bin/, set a cronjob at midnight everyday).
+If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the script to ~/.bin/, set a cronjob at midnight everyday).
