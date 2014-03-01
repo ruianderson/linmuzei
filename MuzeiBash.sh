@@ -21,7 +21,7 @@ function notifytestOSX(){
 case "$OSTYPE" in
   linux* | *BSD*) notifytestLinux ;;
   darwin*)        notifytestOSX ;;
-  *)              echo "Get a proper OS, kid.";;
+  *)              echo "Get a proper OS, kid." && exit ;;
 esac
 if ! [ "$(which jq)" ]
 then
