@@ -6,14 +6,27 @@ mkdir -p $muzeiDir/Wallpaper
 cd $muzeiDir
 
 ######Needed packages######
+function notifytestLinux(){
+  if ! [ "$(which notify-send)" ]
+  then
+    echo "Please install a notification server for a better experience."
+  fi
+}
+function notifytestOSX(){
+  if ! [ "$(which terminal-notifier)" ]
+  then
+    echo "Please install terminal-notifier for a better experience."
+  fi
+}
+case "$OSTYPE" in
+  linux* | *BSD*) notifytestLinux ;;
+  darwin*)        notifytestOSX ;;
+  *)              echo "Get a proper OS, kid." && exit ;;
+esac
 if ! [ "$(which jq)" ]
 then
   echo "You need jq to use this."
   exit
-elif ! [ "$(which notify-send)" ]
-then
-  echo "Please install notify-send for a better experience."
-fi
 
 ######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
 if [ -f ~/.xinitrc ]
@@ -111,9 +124,8 @@ function setWallpaperOSX(){
 #  end tell
 }
 case "$OSTYPE" in
-  linux* | *BSD*)	setWallpaperLinux ;;
-  darwin*)		setWallpaperOSX ;;
-  *)			echo "Get a proper OS, kid." ;;
+  linux* | *BSD*) setWallpaperLinux ;;
+  darwin*)        setWallpaperOSX ;;
 esac
 
 ######Send a notification######
@@ -125,7 +137,9 @@ else
   echo "Logo doesn't exist, downloading..."
   curl -O "https://raw.github.com/Feminist-Software-Foundation/Muzei-Bash/master/MuzeiLogo.png"
 fi
-notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png
+case "$OSTYPE" in
+  linux* | *BSD*) notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png ;;
+  darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;; # No icon support on OSX
 
 ######Clean up old wallpapers######
 echo "Cleaning up old files..."
