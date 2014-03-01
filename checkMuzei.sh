@@ -6,7 +6,7 @@ muzeiDir=~/Pictures/Muzei
 mkdir -p $muzeiDir
 cd $muzeiDir
 
-if [ -f ./muzeich.json ]
+if ! [ -f ./muzeich.json ]
 then
   curl -o muzeich.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
   ~/.bin/MuzeiBash.sh

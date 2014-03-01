@@ -19,7 +19,7 @@ Currently supports Linux running in a Gnome-settings-daemon-based environment (G
 
 ### Requirements specific to GNU/Linux / BSD
 
-* notify-send (for sending "wallpaper changed" notifications)
+* libnotify-bin & a notification server (for sending "wallpaper changed" notifications)
 * feh, hsetroot, or nitrogen (only if you aren't running gnome-settings-daemon)
 
 ### Requirements specific to OSX
