@@ -29,6 +29,21 @@ then
   exit
 fi
 
+######Checking for updates (checkMuzei.sh in older versions)######
+if ! [ -f ./muzeich.json ]
+then
+  curl -o muzeich.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
+else
+  curl -o muzeich2.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
+  if [ "$(cmp muzeich.json muzeich2.json)" ]
+  then
+    mv muzeich2.json muzeich.json
+  else
+    echo "No wallpaper update. Exiting."
+    exit
+  fi
+fi
+
 ######Deleting old .xinitrc line for feh/hsetroot/nitrogen if it exists######
 if [ -f ~/.xinitrc ]
 then
@@ -45,12 +60,11 @@ then
   fi
 fi
 
-######Get the Muzei JSON and parse it######
-curl -o muzei.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
-imageUri=`jq '.imageUri' $muzeiDir/muzei.json | sed s/\"//g`
+######Parse the Muzei JSON######
+imageUri=`jq '.imageUri' $muzeiDir/muzeich.json | sed s/\"//g`
 imageFile=`basename $imageUri`
-title=`jq '.title' $muzeiDir/muzei.json | sed s/\"//g`
-byline=`jq '.byline' $muzeiDir/muzei.json | sed s/\"//g`
+title=`jq '.title' $muzeiDir/muzeich.json | sed s/\"//g`
+byline=`jq '.byline' $muzeiDir/muzeich.json | sed s/\"//g`
 
 ######Get the latest wallpaper######
 cd Wallpaper
