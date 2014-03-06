@@ -13,7 +13,7 @@ case $y_or_n in
 esac
 
 function cronEdit(){
-  { crontab -l; echo "0 * * * * muzeibash"; } | crontab -
+  { crontab -l; echo "0 * * * * DISPLAY=:0 muzeibash"; } | crontab -
 }
 [ $("cronEdit") ]
 
