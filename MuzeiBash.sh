@@ -70,7 +70,7 @@ byline=`jq '.byline' $muzeiDir/muzeich.json | sed s/\"//g`
 ######Clean up old wallpapers######
 cd Wallpaper
 echo "Cleaning up old files..."
-rm $muzeiDir/Wallpaper/*
+rm *
 
 ######Get the latest wallpaper######
 if [ -f $imageFile ]
@@ -117,17 +117,17 @@ function setWallpaperLinux(){
     if [ "$(which feh)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
-      feh --bg-fill $muzeiDir/Wallpaper/$imageFile
+      feh $imageFile
       feh_xinitSet
     elif [ "$(which hsetroot)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
-      hsetroot -cover $muzeiDir/Wallpaper/$imageFile
+      hsetroot -cover $imageFile
       hsetroot_xinitSet
     elif [ "$(which nitrogen)" ]
     then
       echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
-      nitrogen $muzeiDir/Wallpaper/$imageFile
+      nitrogen $imageFile
       nitrogen_xinitSet
     else
       echo "You need to have either feh, hsetroot or nitrogen, bruhbruh."
