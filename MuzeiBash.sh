@@ -39,6 +39,7 @@ else
   then
     mv muzeich2.json muzeich.json
   else
+    rm muzeich2.json
     echo "No wallpaper update. Exiting."
     exit
   fi
@@ -66,8 +67,12 @@ imageFile=`basename $imageUri`
 title=`jq '.title' $muzeiDir/muzeich.json | sed s/\"//g`
 byline=`jq '.byline' $muzeiDir/muzeich.json | sed s/\"//g`
 
-######Get the latest wallpaper######
+######Clean up old wallpapers######
 cd Wallpaper
+echo "Cleaning up old files..."
+rm $muzeiDir/Wallpaper/*
+
+######Get the latest wallpaper######
 if [ -f $imageFile ]
 then
   echo "File $imageFile exists."
@@ -156,7 +161,3 @@ case "$OSTYPE" in
   linux* | *BSD*) notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png ;;
   darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;;
 esac
-
-######Clean up old wallpapers######
-echo "Cleaning up old files..."
-find $muzeiDir/Wallpaper -ctime +1 -exec rm {} +
