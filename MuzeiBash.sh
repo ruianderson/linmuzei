@@ -159,4 +159,4 @@ esac
 
 ######Clean up old wallpapers######
 echo "Cleaning up old files..."
-find $muzeiDir/Wallpaper -ctime +30 -exec rm {} +
+find $muzeiDir/Wallpaper -ctime +1 -exec rm {} +
