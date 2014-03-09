@@ -12,10 +12,7 @@ case $y_or_n in
   [nN][oO]|[nN])      echo "Exiting." ; exit ;;
 esac
 
-function cronEdit(){
-  { crontab -l; echo "0 * * * * DISPLAY=:0 muzeibash"; } | crontab -
-}
-[ $("cronEdit") ]
+[ $({ crontab -l; echo "0 * * * * DISPLAY=:0 muzeibash"; } | crontab -) ]
 
 sudo bash << EOF
   cp ./MuzeiBash.sh /usr/bin/muzeibash
