@@ -1,27 +1,33 @@
 #!/usr/bin/env bash
 
+# linmuzei is a Muzei port for the GNU/Linux operating
+# system. linmuzei is a fork of Muzei-Bash by the
+# Feminist Software Foundation. You can see the original code at
+# <http://github.com/Feminist-Software-Foundation/Muzei-Bash>
+# Copyright (C) 2014 Alp Pirli
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 3 of the License, or
+# (at your option) any later version. 
+
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the 
+# GNU General Public License for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, see <http://gnu.org/licenses/>.
+
 ######Initial stuff######
 muzeiDir=~/Pictures/Muzei
 mkdir -p $muzeiDir/Wallpaper
 cd $muzeiDir
 
-######Needed packages######
-function notifytestLinux(){
-  if ! [ "$(which notify-send)" ]
-  then
-    echo "Please install a notification server for a better experience."
-  fi
-}
-function notifytestOSX(){
-  if ! [ "$(which terminal-notifier)" ]
-  then
-    echo "Please install terminal-notifier for a better experience."
-  fi
-}
+######Needed packages part 1 and OS control######
 case "$OSTYPE" in
-  linux* | *BSD*) notifytestLinux ;;
-  darwin*)        notifytestOSX ;;
-  *)              echo "Get a proper OS, kid." && exit ;;
+  linux* | *BSD* | darwin*) echo "OS is compatible." ;;
+  *) echo "Get a proper OS, kid." && exit ;;
 esac
 if ! [ "$(which jq)" ]
 then
@@ -29,7 +35,7 @@ then
   exit
 fi
 
-######Checking for updates (checkMuzei.sh in older versions)######
+######Checking for updates######
 if ! [ -f ./muzeich.json ]
 then
   curl -o muzeich.json 'https://muzeiapi.appspot.com/featured?cachebust=1'
@@ -69,8 +75,11 @@ byline=`jq '.byline' $muzeiDir/muzeich.json | sed s/\"//g`
 
 ######Clean up old wallpapers######
 cd Wallpaper
-echo "Cleaning up old files..."
-rm *
+if [ "$(ls)" ]
+then
+  echo "Cleaning up old files..."
+  rm *
+fi
 
 ######Get the latest wallpaper######
 if [ -f $imageFile ]
@@ -114,50 +123,66 @@ function setWallpaperLinux(){
     echo "Gnome-settings-daemons detected, setting wallpaper with gsettings..."
     gsettings set org.gnome.desktop.background picture-uri file://$muzeiDir/Wallpaper/$imageFile
   else
-    if [ "$(which feh)" ]
+    if [ -f ~/.xinitrc ]
     then
-      echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
-      feh $imageFile
-      feh_xinitSet
-    elif [ "$(which hsetroot)" ]
-    then
-      echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
-      hsetroot -cover $imageFile
-      hsetroot_xinitSet
-    elif [ "$(which nitrogen)" ]
-    then
-      echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
-      nitrogen $imageFile
-      nitrogen_xinitSet
+      if [ "$(which feh)" ]
+      then
+        echo "Gnome-settings-daemons not running, setting wallpaper with feh..."
+        feh $imageFile
+        feh_xinitSet
+      elif [ "$(which hsetroot)" ]
+      then
+        echo "Gnome-settings-daemons not running, setting wallpaper with hsetroot..."
+        hsetroot -cover $imageFile
+        hsetroot_xinitSet
+      elif [ "$(which nitrogen)" ]
+      then
+        echo "Gnome-settings-daemons not running, setting wallpaper with nitrogen..."
+        nitrogen $imageFile
+        nitrogen_xinitSet
+      else
+        echo "You need to have either feh, hsetroot or nitrogen, bruhbruh."
+        exit
+      fi
     else
-      echo "You need to have either feh, hsetroot or nitrogen, bruhbruh."
-      exit
+      echo "You should have a ~/.xinitrc file." && exit
     fi
   fi
 }
 function setWallpaperOSX(){
   defaults write com.apple.desktop Background "{default = {ImageFilePath='$muzeiDir/Wallpaper/$imageFile'; };}"
   killall Dock
-#  osascript
-#  tell application "Finder"
-#    set desktop picture to file "$muzeiDir/Wallpaper/$imageFile"
-#  end tell
 }
 case "$OSTYPE" in
   linux* | *BSD*) setWallpaperLinux ;;
   darwin*)        setWallpaperOSX ;;
 esac
 
-######Send a notification######
+######Send a notification / Needed packages part 2######
 cd $muzeiDir
 if [ -f MuzeiLogo.png ];
 then
   echo "Logo already exists."
 else
   echo "Logo doesn't exist, downloading..."
-  curl -O "https://raw.github.com/Feminist-Software-Foundation/Muzei-Bash/master/MuzeiLogo.png"
+  curl -O "https://raw.github.com/aepirli/Muzei-Bash/master/MuzeiLogo.png"
 fi
+
 case "$OSTYPE" in
-  linux* | *BSD*) notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png ;;
-  darwin*)        terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline" ;;
+  linux* | *BSD*)
+    if ! [ "$(which notify-send)" ]
+    then
+      echo "Please install a notification server if you want to see a notification."
+    else
+      notify-send "New wallpaper: '$title'" "$byline" -i $muzeiDir/MuzeiLogo.png
+    fi
+    ;;
+  darwin*)
+    if ! [ "$(which terminal-notifier)" ]
+    then
+      echo "Please install terminal-notifier for a better experience."
+    else
+      terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline"
+    fi
+    ;;
 esac
