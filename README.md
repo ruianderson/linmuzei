@@ -3,7 +3,7 @@
   ![Muzei](http://i.imgur.com/vEFoIpw.png)
 
 Port of [Muzei](https://github.com/romannurik/muzei/) to Bash.
-Fork of [Muzei-Bash] (https://github.com/Feminist-Software-Foundation/).
+Fork of [Muzei-Bash] (https://github.com/Feminist-Software-Foundation/Muzei-Bash/).
 
 Set this script as a(n) (ana)cronjob, and it'll download a new "famous work of art" from WikiPaintings.org everyday and set it as your wallpaper.
 
