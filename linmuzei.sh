@@ -145,7 +145,8 @@ function setWallpaperLinux(){
         exit
       fi
     else
-      echo "You should have a ~/.xinitrc file." && exit
+      echo "You should have a ~/.xinitrc file."
+      exit
     fi
   fi
 }
