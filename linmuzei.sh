@@ -29,11 +29,16 @@ case "$OSTYPE" in
   linux* | *BSD* | darwin*) echo "OS is compatible." ;;
   *) echo "Get a proper OS, kid." && exit ;;
 esac
-if ! [ "$(which jq)" ]
-then
-  echo "You need jq to use this."
-  exit
-fi
+
+pack=(jq sed curl)
+for p in $pack
+do
+  if ! [ "$(which $p)" ]
+  then
+    echo "You need jq to use this."
+    exit
+  fi
+done
 
 ######Checking for updates######
 if ! [ -f ./muzeich.json ]

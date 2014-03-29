@@ -16,28 +16,33 @@
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://gnu.org/licenses/>.
 
-if [ ! "$(which jq)" ]
-then
-  echo "You need to install jq to use linmuzei." && exit
-else
-  if [ "$(id -u)" == "0" ]
+pack=(jq sed curl)
+for p in $pack
+do
+  if [ ! "$(which $p)" ]
   then
-    echo "WARNING: If you run the install script as root the cronjob will probably not work for your user."
+    echo "You need to install $p to use linmuzei."
+    exit
   fi
-  
-  mkdir -p ~/Pictures/Muzei
-  cp ./MuzeiLogo.png ~/Pictures/Muzei
+done
 
-  read -r -p "Install linmuzei? [Y/n] " y_or_n
-  case $y_or_n in
-    [nN][oO]|[nN])      echo "Exiting." ; exit ;;
-  esac
-
-  [ $({ crontab -l; echo "0 * * * * DISPLAY=:0 muzeibash"; } | crontab -) ]
-
-  sudo bash << EOF
-    cp ./linmuzei.sh /usr/bin/linmuzei
-    chmod +x /usr/bin/linmuzei
-    echo "linmuzei installed."
-EOF
+if [ "$(id -u)" == "0" ]
+then
+  echo "WARNING: If you run the install script as root the cronjob will probably not work for your user."
 fi
+  
+mkdir -p ~/Pictures/Muzei
+cp ./MuzeiLogo.png ~/Pictures/Muzei
+
+read -r -p "Install linmuzei? [Y/n] " y_or_n
+case $y_or_n in
+  [nN][oO]|[nN])      echo "Exiting." ; exit ;;
+esac
+
+[ $({ crontab -l; echo "0 * * * * DISPLAY=:0 muzeibash"; } | crontab -) ]
+
+sudo bash << EOF
+  cp ./linmuzei.sh /usr/bin/linmuzei
+  chmod +x /usr/bin/linmuzei
+  echo "linmuzei installed."
+EOF
