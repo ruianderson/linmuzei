@@ -35,7 +35,7 @@ for p in $pack
 do
   if ! [ "$(which $p)" ]
   then
-    echo "You need jq to use this."
+    echo "You need $p to use this."
     exit
   fi
 done
