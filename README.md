@@ -31,4 +31,4 @@ Currently supports GNU/Linux running in a Gnome-settings-daemon-based environmen
 
 Simply set the script as a cronjob or anacronjob with your desired running time.  If you're a noob you can use things like Gnome Schedule or KDE's Task Scheduler (KCron) to do this with a GUI.
 
-If you're an übernoob then there's an installMuzei.sh that will do the stuff for you (copy the scripts to /usr/bin, set a cronjob that checks for new wallpaper every hour).
+If you're an übernoob then there's an install-linmuzei.sh that will do the stuff for you (copy the scripts to /usr/bin, set a cronjob that checks for new wallpaper every hour).
