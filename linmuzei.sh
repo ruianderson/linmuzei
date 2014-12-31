@@ -198,7 +198,7 @@ case "$OSTYPE" in
     then
       echo "Please install terminal-notifier for a better experience."
     else
-      terminal-notifier -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline"
+      terminal-notifier -appIcon $muzeiDir/MuzeiLogo.png -title "Muzei-Bash" -message "New wallpaper: '$title'" "$byline"
     fi
     ;;
 esac
