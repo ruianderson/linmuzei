@@ -156,8 +156,18 @@ function setWallpaperLinux(){
   fi
 }
 function setWallpaperOSX(){
-  defaults write com.apple.desktop Background "{default = {ImageFilePath='$muzeiDir/Wallpaper/$imageFile'; };}"
-  killall Dock
+  osascript -- - "$muzeiDir/WallPaper/$imageFile" <<'EOD'
+    on run(argv)
+      set theFile to item 1 of argv
+      tell application "System Events"
+        set theDesktops to a reference to every desktop
+        repeat with aDesktop in theDesktops
+          set the picture of aDesktop to theFile
+        end repeat
+      end tell
+      return "Set OSX desktop(s) to " & theFile
+   end
+EOD
 }
 case "$OSTYPE" in
   linux* | *BSD*) setWallpaperLinux ;;
